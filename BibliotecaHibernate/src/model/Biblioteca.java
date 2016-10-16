@@ -38,6 +38,7 @@ public class Biblioteca {
 	// COSTRUTTORI
 	public Biblioteca() {
 		this.nome = "";
+		
 	}
 
 	public Biblioteca(String nome) {

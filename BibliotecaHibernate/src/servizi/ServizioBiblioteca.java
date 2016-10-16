@@ -2,6 +2,7 @@ package servizi;
 
 import model.Biblioteca;
 import model.Libro;
+import model.Utente;
 import dao.BibliotecaDao;
 import dao.LibroDao;
 import dao.PrestitoDao;
@@ -35,6 +36,24 @@ public class ServizioBiblioteca {
 		return res;
 		
 	}
+	
+	public boolean registraUtente(Biblioteca b, String nome, String cognome,
+			String codiceFiscale) {
+		boolean res = false;
+
+		Utente u = uDao.leggiUtenteConNomeCognomeCf(nome, cognome,
+				codiceFiscale);
+
+		if (u == null) { // Se u è null significa che nn ho trovato l'utente
+			u = new Utente(nome, cognome, codiceFiscale);
+			uDao.creaUtente(u);
+			b.addUtente(u);
+			bDao.aggiornaBiblioteca(b);
+			res = true;
+		}
+		return res;
+	}
+	
 	
 	
 

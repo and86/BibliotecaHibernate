@@ -1,7 +1,12 @@
 package servizi;
 
+import java.util.Calendar;
+import java.util.Date;
+
+import mioDate.DateUtility;
 import model.Biblioteca;
 import model.Libro;
+import model.Prestito;
 import model.Utente;
 import dao.BibliotecaDao;
 import dao.LibroDao;
@@ -53,6 +58,43 @@ public class ServizioBiblioteca {
 		}
 		return res;
 	}
+	
+	public boolean prestaLibro(Biblioteca b, Utente u ,Libro l){
+		boolean res=false;
+		
+		if(u.getPrestito().size()<3 && l.getCopieDisponibili()>0){
+			
+			DateUtility dt=new DateUtility();
+			Date dataPrestito=new Date();
+			Calendar cal= dt.convertJavaDateToCalendar(dataPrestito);
+			cal.add(Calendar.DAY_OF_MONTH, 14);
+			
+			Date dataScadenza= dt.convertCalendarToJavaDate(cal);
+			
+			Prestito p=new Prestito(dataPrestito,dataScadenza,u,b,l);
+			pDao.creaPrestito(p);
+			u.addPrestito(p);
+			l.addPrestito(p);
+			l.setCopieDisponibili(l.getCopieDisponibili()-1);
+			uDao.aggiornaUtente(u);
+			lDao.aggiornaLibro(l);
+			bDao.aggiornaBiblioteca(b);
+			res=true;			
+		}
+		
+		return res;		
+	}
+	
+	public boolean restituisciLibro(Biblioteca b,Utente u,Libro l,Prestito p){
+		boolean res=false;
+		
+		
+		
+		
+		return res;
+	}
+	
+	
 	
 	
 	

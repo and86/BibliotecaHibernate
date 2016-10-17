@@ -1,6 +1,7 @@
 package model;
 
-import java.sql.Date;
+
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,6 +20,7 @@ public class Prestito {
 	
 	private Date dataPrestito;
 	private Date dataRestituzione;
+	private Date dataScadenza;
 	
 	@ManyToOne
 	@JoinColumn(name="id_Utente")
@@ -36,10 +38,14 @@ public class Prestito {
 public Prestito() {
 	}
 	
-	public Prestito(Date dataPrestito, Date dataRestituzione) {
+	public Prestito(Date dataPrestito, Date dataScadenza,
+			Utente utente, Biblioteca biblioteca, Libro libro) {
 		
 		this.dataPrestito = dataPrestito;
-		this.dataRestituzione = dataRestituzione;
+		this.setDataScadenza(dataScadenza);
+		this.utente = utente;
+		this.biblioteca = biblioteca;
+		this.libro = libro;
 	}
 
 	//GETTER AND SETTER
@@ -89,6 +95,14 @@ public Prestito() {
 
 	public void setLibro(Libro libro) {
 		this.libro = libro;
+	}
+
+	public Date getDataScadenza() {
+		return dataScadenza;
+	}
+
+	public void setDataScadenza(Date dataScadenza) {
+		this.dataScadenza = dataScadenza;
 	}
 	
 	
